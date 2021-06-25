@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <bytecodeTargetLevel>
+      <module name="Online_Chat-task-stage2_main" target="11" />
+      <module name="Online_Chat-task-stage2_test" target="11" />
+      <module name="Online_Chat-task-stage3_main" target="11" />
+      <module name="Online_Chat-task-stage3_test" target="11" />
+      <module name="Online_Chat-task-stage4_main" target="11" />
+      <module name="Online_Chat-task-stage4_test" target="11" />
+      <module name="Online_Chat-task-stage5_main" target="11" />
+      <module name="Online_Chat-task-stage5_test" target="11" />
+      <module name="Online_Chat-task_main" target="11" />
+      <module name="Online_Chat-task_test" target="11" />
+      <module name="Problems-Bad_words_detecting_main" target="11" />
+      <module name="Problems-Bad_words_detecting_test" target="11" />
+      <module name="Problems-Catching_some_exceptions_main" target="11" />
+      <module name="Problems-Catching_some_exceptions_test" target="11" />
+      <module name="Problems-Check_for_null_main" target="11" />
+      <module name="Problems-Check_for_null_test" target="11" />
+      <module name="Problems-Counting_words_main" target="11" />
+      <module name="Problems-Counting_words_test" target="11" />
+      <module name="util_main" target="11" />
+      <module name="util_test" target="11" />
+    </bytecodeTargetLevel>
+  </component>
+</project>

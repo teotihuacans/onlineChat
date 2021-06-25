@@ -1,0 +1,365 @@
+type: edu
+files:
+- name: src/chat/Main.java
+  visible: true
+  text: |
+    package chat;
+
+    public class Main {
+        public static void main(String[] args) {
+            System.out.println("Hello World!");
+        }
+    }
+  learner_created: false
+- name: test/Tests.java
+  visible: false
+  text: |
+    import org.hyperskill.hstest.dynamic.input.DynamicTestingMethod;
+    import org.hyperskill.hstest.stage.StageTest;
+    import org.hyperskill.hstest.testcase.CheckResult;
+    import org.hyperskill.hstest.testing.TestedProgram;
+
+    import static org.hyperskill.hstest.common.Utils.sleep;
+
+    public class Tests extends StageTest<String> {
+
+        @DynamicTestingMethod
+        CheckResult test() {
+            final TestedProgram server = new TestedProgram("chat.server");
+            final TestedProgram client1 = new TestedProgram("chat.client");
+            final TestedProgram client2 = new TestedProgram("chat.client");
+            final TestedProgram client3 = new TestedProgram("chat.client");
+            client1.setReturnOutputAfterExecution(false);
+            client2.setReturnOutputAfterExecution(false);
+            client3.setReturnOutputAfterExecution(false);
+            final String countIs = "Count is ";
+            final int executePause = 50;
+
+            server.startInBackground();
+
+            //////Client 1
+
+            client1.start();
+            sleep(executePause);
+
+            final String client1Start = client1.getOutput().trim();
+            if (!"Client started!".equals(client1Start))
+                return CheckResult.wrong("Can't get the \"Client started!\" message");
+
+            client1.execute("1 2 3");
+            sleep(executePause);
+
+            final String client1Answer1 = client1.getOutput().trim();
+            if (!(countIs + "3").equals(client1Answer1))
+                return CheckResult.wrong("Client showed a wrong answer!");
+
+            client1.execute("1 2");
+            sleep(executePause);
+
+            final String client1Answer2 = client1.getOutput().trim();
+            if (!(countIs + "2").equals(client1Answer2))
+                return CheckResult.wrong("Client showed a wrong answer!");
+
+            client1.execute("/exit");
+            sleep(executePause);
+
+            //////Client 2
+
+            client2.start();
+            sleep(executePause);
+            client2.getOutput();
+
+            client2.execute("By my hands");
+            sleep(executePause);
+
+            final String client2Answer1 = client2.getOutput().trim();
+            if (!(countIs + "3").equals(client2Answer1))
+                return CheckResult.wrong("Client showed a wrong answer!");
+
+            /////Client 3
+
+            client3.start();
+            sleep(executePause);
+            client3.getOutput();
+
+            client3.execute("Zzzz.");
+            sleep(executePause);
+
+            final String client3Answer1 = client3.getOutput().trim();
+            if (!(countIs + "1").equals(client3Answer1))
+                return CheckResult.wrong("Client showed a wrong answer!");
+
+            client3.execute("want to sleep");
+            sleep(executePause);
+
+            final String client3Answer2 = client3.getOutput().trim();
+            if (!(countIs + "3").equals(client3Answer2))
+                return CheckResult.wrong("Client showed a wrong answer!");
+
+            client3.execute("/exit");
+
+            //////Client 2 AGAIN
+
+            client2.execute("Repeat");
+            sleep(executePause);
+
+            final String client2Answer2 = client2.getOutput().trim();
+            if (!(countIs + "1").equals(client2Answer2))
+                return CheckResult.wrong("Client showed a wrong answer!");
+
+            client2.execute("/exit");
+            sleep(executePause);
+
+            //////Server
+
+            if (!server.getOutput().trim().equals(
+            "Server started!\n" +
+
+            "Client 1 connected!\n" +
+            "Client 1 sent: 1 2 3\n" +
+            "Sent to client 1: " + countIs + "3\n" +
+            "Client 1 sent: 1 2\n" +
+            "Sent to client 1: " + countIs + "2\n" +
+            "Client 1 disconnected!\n" +
+
+            "Client 2 connected!\n" +
+            "Client 2 sent: By my hands\n" +
+            "Sent to client 2: " + countIs + "3\n" +
+
+            "Client 3 connected!\n" +
+            "Client 3 sent: Zzzz.\n" +
+            "Sent to client 3: " + countIs + "1\n" +
+
+            "Client 3 sent: want to sleep\n" +
+            "Sent to client 3: " + countIs + "3\n" +
+            "Client 3 disconnected!\n" +
+
+            "Client 2 sent: Repeat\n" +
+            "Sent to client 2: " + countIs + "1\n" +
+            "Client 2 disconnected!"
+            ))
+                return CheckResult.wrong(
+                "Server showed wrong messages or messages in wrong order");
+
+
+            return CheckResult.correct();
+        }
+
+    }
+  learner_created: false
+- name: src/chat/client/Client.java
+  visible: true
+  text: |
+    package chat.client;
+
+    import chat.server.Server;
+
+    import java.io.*;
+    import java.net.Socket;
+    import java.net.SocketException;
+    import java.util.Scanner;
+
+    public class Client extends  Thread
+    {
+        private static final String SERVER_ADDRESS = "127.0.0.1";
+        private static final int SERVER_PORT = 34523;
+        private static final String INITIAL_MSG = "Client started!";
+        private Scanner scanner = new Scanner(System.in);
+
+        @Override
+        public void run() {
+            try (
+                    Socket socket = new Socket(SERVER_ADDRESS, SERVER_PORT);
+                    DataInputStream input = new DataInputStream(socket.getInputStream());
+                    DataOutputStream output  = new DataOutputStream(socket.getOutputStream())
+            ) {
+
+                new Thread(() -> {
+                    while (socket.isConnected()) {
+                        readAndOutputMessage(input);
+                    }
+                }).start();
+
+                try {
+                    //System.out.println("Check");
+                    Server.currentThread().wait(3000);
+                } catch (Exception ignored) {
+                }
+
+                sentMessage(output, INITIAL_MSG);
+
+                //BufferedReader vin = new BufferedReader(new InputStreamReader(System.in));
+
+                String temp;
+                while (true) {
+                    if (!sentMessage(output, scanner.nextLine())) {
+                        break;
+                    }
+                }
+                socket.close();
+                Server.stopServer(true);
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        private boolean sentMessage(DataOutputStream out, String message) {
+            try {
+                out.writeUTF(message);
+                /*if (!message.matches(".+")) {
+                    return false;
+                }*/
+            } catch (EOFException | SocketException ignored) {
+                return false;
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("Can't write the message!");
+            }
+            return true;
+        }
+
+        private void readAndOutputMessage(DataInputStream in) {
+            while (true) {
+                try {
+                    System.out.println(/*"Client read: " +*/ in.readUTF());
+                    /*String msg = in.readUTF();
+                    if (msg.matches(".+")) {
+                        System.out.println(*//*"Client read: " +*//* msg);
+                    } else {
+                        return;
+                    }*/
+                } catch (EOFException | SocketException ignored) {
+                    return;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("Can't read the message!");
+                }
+            }
+        }
+
+        public static void main(String[] args) throws InterruptedException {
+            //do nothing
+            Client cl = new Client();
+            cl.start();
+            cl.join(3000L); //join throws exception; wait = IllegalMonitorStateException
+        }
+    }
+  learner_created: true
+- name: src/chat/server/Server.java
+  visible: true
+  text: |+
+    package chat.server;
+    import java.io.*;
+    import java.net.*;
+    import java.util.Scanner;
+
+    public class Server extends Thread
+    {
+        private static final int PORT = 34523;
+        private static final String ADDRESS = "127.0.0.1";
+        private static final String INITIAL_MSG = "Server started!";
+        private static boolean STOPSERVER = false;
+        private Scanner scanner = new Scanner(System.in);
+
+        public static void stopServer(boolean value) {
+            STOPSERVER = value;
+        }
+
+        @Override
+        public void run() {
+            //try (ServerSocket server = new ServerSocket(PORT)) {
+            try (ServerSocket server = new ServerSocket(PORT, 50, InetAddress.getByName(ADDRESS))) {
+                while (!STOPSERVER) {
+                    try (
+                            Socket socket = server.accept(); // accepting a new client
+                            DataInputStream input = new DataInputStream(socket.getInputStream());
+                            DataOutputStream output = new DataOutputStream(socket.getOutputStream())
+                    ) {
+
+                        new Thread(() -> {
+                            while (!STOPSERVER) {
+                                readAndOutputMessage(input);
+                            }
+                        }).start();
+
+                        try {
+                            //System.out.println("Check");
+                            Server.currentThread().wait(3000);
+                        } catch (Exception ignored) {
+                        }
+
+                        sentMessage(output, INITIAL_MSG);
+
+                        /*String msg = "";
+                        while (scanner.hasNext()) { //Всегда будет на консоли next, нужен символ или /n
+                            msg += scanner.nextLine() + "\n";
+                        }*/
+
+                        while (true) {
+                            if (!sentMessage(output, scanner.nextLine())) {
+                                break;
+                            }
+                        }
+
+                    }
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        private boolean sentMessage(DataOutputStream out, String message) {
+            try {
+                out.writeUTF(message);
+                /*if (!message.matches(".+")) {
+                    return false;
+                }*/
+            } catch (EOFException | SocketException ignored) {
+                return false;
+            } catch (Exception e) {
+                e.printStackTrace();
+                System.out.println("Can't write the message!");
+            }
+            return true;
+        }
+
+        private void readAndOutputMessage(DataInputStream in) {
+            while (true) {
+                try {
+                    System.out.println(/*"Server read: " +*/ in.readUTF());
+                    /*String msg = in.readUTF();
+                    if (msg.matches(".+")) {
+                        System.out.println(*//*"Server read: " +*//* msg);
+                    } else {
+                        return;
+                    }*/
+                } catch (EOFException | SocketException ignored) {
+                    return;
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    System.out.println("Can't read the message!");
+                }
+            }
+        }
+
+        public static void main(String[] args) throws InterruptedException {
+            Server srv = new Server();
+            srv.start();
+            srv.join(3000L);
+        }
+    }
+
+
+  learner_created: true
+- name: src/chat/server/ServerSocketHandler.java
+  visible: true
+  learner_created: true
+feedback_link: https://hyperskill.org/projects/49/stages/267/implement
+status: Solved
+feedback:
+  message: Congratulations! Continue on <a href="https://hyperskill.org/projects/49/stages/267/implement">JetBrains
+    Academy</a>
+  time: Mon, 10 May 2021 22:01:10 UTC
+record: 3

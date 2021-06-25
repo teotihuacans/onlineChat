@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<meta http-equiv="x-ua-compatible" content="IE=edge"/>
+<title>Test results - Class Tests</title>
+<link href="../css/base-style.css" rel="stylesheet" type="text/css"/>
+<link href="../css/style.css" rel="stylesheet" type="text/css"/>
+<script src="../js/report.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="content">
+<h1>Class Tests</h1>
+<div class="breadcrumbs">
+<a href="../index.html">all</a> &gt; 
+<a href="../packages/default-package.html">default-package</a> &gt; Tests</div>
+<div id="summary">
+<table>
+<tr>
+<td>
+<div class="summaryGroup">
+<table>
+<tr>
+<td>
+<div class="infoBox" id="tests">
+<div class="counter">1</div>
+<p>tests</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="failures">
+<div class="counter">0</div>
+<p>failures</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="ignored">
+<div class="counter">0</div>
+<p>ignored</p>
+</div>
+</td>
+<td>
+<div class="infoBox" id="duration">
+<div class="counter">24.001s</div>
+<p>duration</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+</td>
+<td>
+<div class="infoBox success" id="successRate">
+<div class="percent">100%</div>
+<p>successful</p>
+</div>
+</td>
+</tr>
+</table>
+</div>
+<div id="tabs">
+<ul class="tabLinks">
+<li>
+<a href="#tab0">Tests</a>
+</li>
+<li>
+<a href="#tab1">Standard output</a>
+</li>
+</ul>
+<div id="tab0" class="tab">
+<h2>Tests</h2>
+<table>
+<thead>
+<tr>
+<th>Test</th>
+<th>Duration</th>
+<th>Result</th>
+</tr>
+</thead>
+<tr>
+<td class="success">start</td>
+<td class="success">24.001s</td>
+<td class="success">passed</td>
+</tr>
+</table>
+</div>
+<div id="tab1" class="tab">
+<h2>Standard output</h2>
+<span class="code">
+<pre>?[1;31m
+Start test 1?[0m
+Client started!
+Server: authorize or register
+Client started!
+Server: authorize or register
+Client started!
+Server: authorize or register
+&gt; bla bla bla
+Server: you are not in the chat!
+&gt; /auth asdasd asdasd
+Server: incorrect login!
+&gt; /registration first pass
+Server: the password is too short!
+&gt; /registration first 12345678
+Server: you are registered successfully!
+&gt; before choosing an addressee
+Server: use /list command to choose a user to text!
+&gt; /list
+Server: online: Server: no one online
+&gt; /exit
+&gt; /auth first paasf
+Server: incorrect password!
+&gt; /auth first 12345678
+Server: you are authorized successfully!
+&gt; /registration first 12345678
+Server: this login is already taken! Choose another one.
+&gt; /registration second 12345678
+Server: you are registered successfully!
+&gt; /list
+Server: online: second
+&gt; /chat blabla
+Server: the user is not online!
+&gt; blabla
+Server: use /list command to choose a user to text!
+&gt; /chat second
+&gt; test
+first: test
+&gt; /chat first
+(new) first: test
+&gt; 1
+first: 1
+first: 1
+&gt; 2
+first: 2
+first: 2
+&gt; 3
+first: 3
+first: 3
+&gt; 4
+first: 4
+first: 4
+&gt; 5
+first: 5
+first: 5
+&gt; 6
+first: 6
+first: 6
+&gt; 7
+first: 7
+first: 7
+&gt; 8
+first: 8
+first: 8
+&gt; 9
+first: 9
+first: 9
+&gt; 10
+second: 10
+second: 10
+&gt; /exit
+&gt; /exit
+Server finished
+?[1;31m
+Start test 2?[0m
+Client started!
+Server: authorize or register
+Client started!
+Server: authorize or register
+Client started!
+Server: authorize or register
+&gt; /auth first 12345678
+Server: you are authorized successfully!
+&gt; /auth second 12345678
+Server: you are authorized successfully!
+&gt; /chat first
+&gt; unread
+first: 1
+first: 2
+first: 3
+first: 4
+first: 5
+first: 6
+first: 7
+first: 8
+first: 9
+second: 10
+second: unread
+&gt; /chat second
+first: 1
+first: 2
+first: 3
+first: 4
+first: 5
+first: 6
+first: 7
+first: 8
+first: 9
+second: 10
+(new) second: unread
+&gt; /exit
+&gt; /exit
+&gt; /exit
+Server finished
+?[1;31m
+Start test 3?[0m
+Client started!
+Server: authorize or register
+Client started!
+Server: authorize or register
+Client started!
+Server: authorize or register
+Client started!
+Server: authorize or register
+&gt; /auth first 12345678
+Server: you are authorized successfully!
+&gt; /auth second 12345678
+Server: you are authorized successfully!
+&gt; /auth admin 12345678
+Server: you are authorized successfully!
+&gt; /kick admin
+Server: you can't kick yourself!
+&gt; /kick first
+Server: first was kicked!
+Server: you have been kicked out of the server!
+&gt; /list
+Server: online: second
+&gt; I'm not authed
+Server: you are not in the chat!
+&gt; /auth first 12345678
+Server: you are banned!
+&gt; /registration first2 12345678
+Server: you are registered successfully!
+&gt; /grant first2
+Server: first2 is the new moderator!
+Server: you are the new moderator now!
+&gt; /grant first2
+Server: this user is already a moderator!
+&gt; /kick second
+Server: second was kicked!
+Server: you have been kicked out of the server!
+&gt; /list
+Server: online: first2
+&gt; /kick first2
+Server: first2 was kicked!
+Server: you have been kicked out of the server!
+&gt; /list
+Server: online: Server: no one online
+&gt; /exit
+&gt; /exit
+&gt; /exit
+&gt; /exit
+Server finished
+?[1;31m
+Start test 4?[0m
+Client started!
+Server: authorize or register
+Client started!
+Server: authorize or register
+Client started!
+Server: authorize or register
+&gt; /registration moderator 12345678
+Server: you are registered successfully!
+&gt; /registration 999 12345678
+Server: you are registered successfully!
+&gt; /auth admin 12345678
+Server: you are authorized successfully!
+&gt; /grant moderator
+Server: moderator is the new moderator!
+Server: you are the new moderator now!
+&gt; /revoke admin
+Server: you are not an admin!
+&gt; /revoke 999
+Server: you are not an admin!
+&gt; /revoke moderator
+Server: you are no longer a moderator!
+Server: moderator is no longer a moderator!
+&gt; /kick 999
+Server: you are not a moderator or an admin!
+&gt; /exit
+&gt; /exit
+&gt; /exit
+Server finished
+?[1;31m
+Start test 5?[0m
+Client started!
+Server: authorize or register
+Client started!
+Server: authorize or register
+Client started!
+Server: authorize or register
+&gt; /registration client1 12345678
+Server: you are registered successfully!
+&gt; /registration client2 12345678
+Server: you are registered successfully!
+&gt; /auth admin 12345678
+Server: you are authorized successfully!
+&gt; /chat client2
+&gt; /chat client2
+&gt; 1
+client1: 1
+&gt; 2
+client1: 2
+&gt; 3
+client1: 3
+&gt; /chat client2
+&gt; 1
+admin: 1
+&gt; 2
+admin: 2
+&gt; 3
+admin: 3
+&gt; /unread
+Server: unread from: admin client1
+&gt; /unread
+Server: no one unread
+&gt; /chat admin
+(new) admin: 1
+(new) admin: 2
+(new) admin: 3
+&gt; 1
+client2: 1
+client2: 1
+&gt; 1
+client2: 1
+client2: 1
+&gt; 1
+client2: 1
+client2: 1
+&gt; /chat client2
+admin: 1
+admin: 2
+admin: 3
+client2: 1
+client2: 1
+client2: 1
+&gt; /stats
+Server:
+Statistics with client2:
+Total messages: 6
+Messages from admin: 3
+Messages from client2: 3
+&gt; /chat client2
+admin: 1
+admin: 2
+admin: 3
+client2: 1
+client2: 1
+client2: 1
+&gt; 1
+admin: 1
+admin: 1
+&gt; /stats
+Server:
+Statistics with admin:
+Total messages: 7
+Messages from client2: 3
+Messages from admin: 4
+Server:
+Statistics with client2:
+Total messages: 6
+Messages from admin: 3
+Messages from client2: 3
+&gt; /exit
+&gt; /exit
+&gt; /exit
+Server finished
+?[1;31m
+Start test 6?[0m
+Client started!
+Server: authorize or register
+Client started!
+Server: authorize or register
+&gt; /registration client3 12345678
+Server: you are registered successfully!
+&gt; /registration client4 12345678
+Server: you are registered successfully!
+&gt; /chat client4
+&gt; 1
+client3: 1
+&gt; 2
+client3: 2
+&gt; 3
+client3: 3
+&gt; 4
+client3: 4
+&gt; 5
+client3: 5
+&gt; 6
+client3: 6
+&gt; 7
+client3: 7
+&gt; 8
+client3: 8
+&gt; 9
+client3: 9
+&gt; 10
+client3: 10
+&gt; 11
+client3: 11
+&gt; 12
+client3: 12
+&gt; 13
+client3: 13
+&gt; 14
+client3: 14
+&gt; 15
+client3: 15
+&gt; 16
+client3: 16
+&gt; 17
+client3: 17
+&gt; 18
+client3: 18
+&gt; 19
+client3: 19
+&gt; 20
+client3: 20
+&gt; 21
+client3: 21
+&gt; 22
+client3: 22
+&gt; 23
+client3: 23
+&gt; 24
+client3: 24
+&gt; 25
+client3: 25
+&gt; 26
+client3: 26
+&gt; 27
+client3: 27
+&gt; 28
+client3: 28
+&gt; 29
+client3: 29
+&gt; 30
+client3: 30
+&gt; 31
+client3: 31
+&gt; 32
+client3: 32
+&gt; 33
+client3: 33
+&gt; 34
+client3: 34
+Server finished
+&gt; 35
+client3: 35
+&gt; 36
+client3: 36
+&gt; 37
+client3: 37
+&gt; 38
+client3: 38
+&gt; 39
+client3: 39
+&gt; 40
+client3: 40
+&gt; 41
+client3: 41
+&gt; 42
+client3: 42
+&gt; 43
+client3: 43
+&gt; 44
+client3: 44
+&gt; 45
+client3: 45
+&gt; 46
+client3: 46
+&gt; 47
+client3: 47
+&gt; 48
+client3: 48
+&gt; 49
+client3: 49
+&gt; 50
+client3: 50
+&gt; /chat client3
+(new) client3: 26
+(new) client3: 27
+(new) client3: 28
+(new) client3: 29
+(new) client3: 30
+(new) client3: 31
+(new) client3: 32
+(new) client3: 33
+(new) client3: 34
+(new) client3: 35
+(new) client3: 36
+(new) client3: 37
+(new) client3: 38
+(new) client3: 39
+(new) client3: 40
+(new) client3: 41
+(new) client3: 42
+(new) client3: 43
+(new) client3: 44
+(new) client3: 45
+(new) client3: 46
+(new) client3: 47
+(new) client3: 48
+(new) client3: 49
+(new) client3: 50
+&gt; /history test
+Server: test is not a number!
+&gt; /history 35
+Server:
+client3: 16
+client3: 17
+client3: 18
+client3: 19
+client3: 20
+client3: 21
+client3: 22
+client3: 23
+client3: 24
+client3: 25
+client3: 26
+client3: 27
+client3: 28
+client3: 29
+client3: 30
+client3: 31
+client3: 32
+client3: 33
+client3: 34
+client3: 35
+client3: 36
+client3: 37
+client3: 38
+client3: 39
+client3: 40
+</pre>
+</span>
+</div>
+</div>
+<div id="footer">
+<p>
+<div>
+<label class="hidden" id="label-for-line-wrapping-toggle" for="line-wrapping-toggle">Wrap lines
+<input id="line-wrapping-toggle" type="checkbox" autocomplete="off"/>
+</label>
+</div>Generated by 
+<a href="http://www.gradle.org">Gradle 6.6.1</a> at 25 июн. 2021 г., 19:12:33</p>
+</div>
+</div>
+</body>
+</html>
